@@ -1,0 +1,25 @@
+﻿@model InforceURLShortner.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Log in</h1>
+
+<form asp-action="Login" asp-controller="Account">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div>
+            <div class="form-group">
+                <label asp-for="Login" class="control-label">Enter login</label><br />
+                <input type="text" asp-for="Login" class="form-control"/>
+                <span asp-validation-for="Login" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Enter password</label><br />
+                <input type="password" asp-for="Password" class="form-control"/>
+                <span asp-validation-for="Password" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-outline-dark"/>
+            </div>
+        </div>
+</form>
