@@ -21,6 +21,7 @@ namespace InforceURLShortner.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name),
             };
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "AppCookie", ClaimsIdentity.DefaultNameClaimType,
@@ -35,11 +36,14 @@ namespace InforceURLShortner.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User? user = await _context.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
+                User? user = await _context.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(user);
@@ -66,17 +70,22 @@ namespace InforceURLShortner.Controllers
                 User? user = await _context.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user == null)
                 {
-                    User newUser = new User
+                    user = new User
                     {
                         Name = model.Name,
                         Login = model.Login,
                         Password = model.Password,
                     };
+
+                    Role? userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+                    if (userRole != null)
+                        user.Role = userRole;
+
                     // adding user to DB
-                    _context.Users.Add(newUser);
+                    _context.Users.Add(user);
                     await _context.SaveChangesAsync();
 
-                    await Authenticate(newUser); // authentication
+                    await Authenticate(user); // authentication
                     return RedirectToAction("Index", "Home");
                 }
                 else
