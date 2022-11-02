@@ -5,22 +5,25 @@
 
 <div class="text-center">
     <h1 class="display-4">Short Url's table</h1>
-    <p>@UrlShortner.IdToShortURL(3)</p>
 </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create" role="button" class="btn btn-dark btn-lg">Create New</a>
+    </p>
+}
 
-<table class="table">
+<table>
     <thead>
         <tr>
-            <th class="short-url">
-                <p><b>Short URL</b></p>
+            <th scope="col" class="col">
+                <p>Short Url</p>
             </th>
-            <th class="long-url">
-                <p><b>Full URL</b></p>
+            <th scope="col" class="col-6">
+                <p>Full Url</p>
             </th>
+            <th class="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -28,22 +31,27 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="short-url">
+                    <td class="col">
                         <a href="@item.FullURL">@item.ShortURL</a>
                     </td>
-                    <td class="long-url">
-                        @Html.DisplayFor(modelItem => item.FullURL)
+                    <td class="col-6">
+                        <p>@item.FullURL</p>
                     </td>
                     <td>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        }
-
-                        @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
-                        {
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        }
+                        <div class="col">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a role="button" class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
+                                {
+                                    <a role="button" class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-secondary disabled" role="button" aria-disabled="true">Delete</a>
+                                }
+                            }
+                        </div>
                     </td>
                 </tr>
             }
