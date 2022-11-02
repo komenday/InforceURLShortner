@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.short-url {
+    width: 85px;
+}
+
+.long-url {
+    width: 400px;
+}

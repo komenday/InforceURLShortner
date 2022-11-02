@@ -1,8 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<InforceURLShortner.Models.Url>
+@{
+    ViewData["Title"] = "Url Shortner";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Short Url's table</h1>
+    <p>@UrlShortner.IdToShortURL(3)</p>
 </div>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="short-url">
+                <p><b>Short URL</b></p>
+            </th>
+            <th class="long-url">
+                <p><b>Full URL</b></p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null) {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="short-url">
+                        <a href="@item.FullURL">@item.ShortURL</a>
+                    </td>
+                    <td class="long-url">
+                        @Html.DisplayFor(modelItem => item.FullURL)
+                    </td>
+                    <td>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        }
+
+                        @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

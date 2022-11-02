@@ -6,6 +6,7 @@ namespace InforceURLShortner.Models
     {
         public DbSet<User>? Users { get; set; }
         public DbSet<Role>? Roles { get; set; }
+        public DbSet<Url>? Urls { get; set; }
         public InforceShortnerContext(DbContextOptions<InforceShortnerContext> options) : base(options)
         {
             Database.EnsureCreated();
