@@ -8,7 +8,7 @@ namespace InforceURLShortner.Controllers
         [HttpGet]
         public async Task<IActionResult> About()
         {
-            string path = @"C:\Users\komen\source\repos\InforceURLShortner\InforceURLShortner\wwwroot\about.txt";
+            string path = Path.GetFullPath("wwwroot/about.txt");
             string text = Environment.NewLine;
 
             using (StreamReader reader = new StreamReader(path))
@@ -29,7 +29,7 @@ namespace InforceURLShortner.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> RecordEditAbout(string edited)
         {
-            string path = @"C:\Users\komen\source\repos\InforceURLShortner\InforceURLShortner\wwwroot\about.txt";
+            string path = Path.GetFullPath("wwwroot/about.txt");
             using (StreamWriter writer = new StreamWriter(path, false))
             {
                 await writer.WriteLineAsync(edited);
