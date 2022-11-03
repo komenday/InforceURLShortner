@@ -1,0 +1,14 @@
+﻿@model String
+@{
+    ViewData["Title"] = "About program";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @Model
+</p>
+
+@if (User.IsInRole("admin"))
+{
+    <a class="btn btn-primary" asp-action="EditAbout" asp-route-innerText="@Model" role="button">Edit "About" chapter</a>
+}

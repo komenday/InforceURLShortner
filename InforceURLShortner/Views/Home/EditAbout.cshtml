@@ -1,0 +1,16 @@
+﻿@model String
+@{
+    ViewData["Title"] = "EditAbout";
+}
+
+<h1>Edit "About" chapter</h1>
+
+<form asp-action="RecordEditAbout">
+    <div class="mb-3">
+        <label for="edited" class="form-label">Enter new text</label>
+        <textarea class="form-control" id="edited" name="edited" rows="3">@Model</textarea>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save changes" class="btn btn-primary" />
+    </div>
+</form>
