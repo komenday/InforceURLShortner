@@ -21,28 +21,22 @@ namespace InforceURLShortner.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(false);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string fullUrl)
         {
-            if (_context.Urls.Where(u => u.FullURL == fullUrl).Count() == 0)
+            if (_context.Urls.All(u => u.FullURL != fullUrl))
             {
-                Url url = new Url
-                {
-                    FullURL = fullUrl,
-                    ShortURL = UrlShortner.IdToShortURL(fullUrl.GetHashCode()),
-                    AuthorLogin = User?.Identity.Name,
-                    CreationDate = DateTime.Now
-                };
+                Url url = CreateShortUrl(fullUrl);
                 _context.Add(url);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index));
+            return View("~/Views/Home/Create.cshtml", true);
         }
 
         [Authorize]
@@ -85,6 +79,18 @@ namespace InforceURLShortner.Controllers
             _context.Urls.Remove(url);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [NonAction]
+        private Url CreateShortUrl(string fullUrl)
+        {
+            return new Url
+            {
+                FullURL = fullUrl,
+                ShortURL = UrlShortner.IdToShortURL(fullUrl.GetHashCode()),
+                AuthorLogin = User?.Identity.Name,
+                CreationDate = DateTime.Now
+            };
         }
     }
 }

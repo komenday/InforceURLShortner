@@ -14,57 +14,51 @@
     </p>
 }
 
-<table>
+<table style="width: 100%">
+    <colgroup>
+        <col span="1" style="width: 20%;">
+        <col span="1" style="width: 50%;">
+        <col span="1" style="width: 30%;">
+    </colgroup>
     <thead>
         <tr>
-            <div class="col">
-                <th scope="col">
-                    <p>Short Url</p>
-                </th>
-            </div>
-            <div class="col-6">
-                <th scope="col">
-                    <p>Full Url</p>
-                </th>
-            </div>
-            <div class="col">
-                <th></th>
-            </div>
+            <th scope="col">
+                <p>Short Url</p>
+            </th>
+            <th scope="col">
+                <p>Full Url</p>
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model != null) {
+        @if (Model != null)
+        {
             @foreach (var item in Model)
             {
                 <tr>
-                    <div class="col">
-                        <td>
-                            <a href="@item.FullURL">@item.ShortURL</a>
-                        </td>
-                    </div>
-                    <div class="col-6">
-                        <td>
-                            <p>@item.FullURL</p>
-                        </td>
-                    </div>
-                    <div class="col">
-                        <td>
-                            <div>
-                                @if (User.Identity.IsAuthenticated)
+                    <td>
+                        <a href="@item.FullURL">@item.ShortURL</a>
+                    </td>
+                    <td>
+                        <p>@item.FullURL</p>
+                    </td>
+                    <td>
+                        <div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a role="button" class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
                                 {
-                                    <a role="button" class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                    @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
-                                    {
-                                        <a role="button" class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-secondary disabled" role="button" aria-disabled="true">Delete</a>
-                                    }
+                                    <a role="button" class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 }
-                            </div>
-                        </td>
-                    </div>
+                                else
+                                {
+                                    <a class="btn btn-secondary disabled" role="button" aria-disabled="true">Delete</a>
+                                }
+                            }
+                        </div>
+                    </td>
                 </tr>
             }
         }
