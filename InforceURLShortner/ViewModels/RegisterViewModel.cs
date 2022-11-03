@@ -6,8 +6,6 @@ namespace InforceURLShortner.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        public string Name { get; set; }
-        [Required]
         public string Login { get; set; }
         [Required]
         [DataType(DataType.Password)]

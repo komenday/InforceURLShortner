@@ -8,11 +8,6 @@
 <form asp-action="Register" asp-controller="Account">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div>
-        <div class="form-group">
-            <label asp-for="Name" class="control-label"></label><br />
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
         <div>
             <label asp-for="Login" class="control-label">Enter login</label><br />
             <input type="text" asp-for="Login" class="form-control" />

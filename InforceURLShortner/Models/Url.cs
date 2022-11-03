@@ -7,7 +7,7 @@ namespace InforceURLShortner.Models
         public int Id { get; set; }
         public string FullURL { get; set; }
         public string ShortURL { get; set; }
-        public string AuthorLogin { get; set; }
+        public string? AuthorLogin { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }

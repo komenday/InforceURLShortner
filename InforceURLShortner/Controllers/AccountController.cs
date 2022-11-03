@@ -72,7 +72,6 @@ namespace InforceURLShortner.Controllers
                 {
                     user = new User
                     {
-                        Name = model.Name,
                         Login = model.Login,
                         Password = model.Password,
                     };

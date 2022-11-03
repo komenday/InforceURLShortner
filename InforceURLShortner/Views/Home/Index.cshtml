@@ -17,13 +17,19 @@
 <table>
     <thead>
         <tr>
-            <th scope="col" class="col">
-                <p>Short Url</p>
-            </th>
-            <th scope="col" class="col-6">
-                <p>Full Url</p>
-            </th>
-            <th class="col"></th>
+            <div class="col">
+                <th scope="col">
+                    <p>Short Url</p>
+                </th>
+            </div>
+            <div class="col-6">
+                <th scope="col">
+                    <p>Full Url</p>
+                </th>
+            </div>
+            <div class="col">
+                <th></th>
+            </div>
         </tr>
     </thead>
     <tbody>
@@ -31,28 +37,34 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="col">
-                        <a href="@item.FullURL">@item.ShortURL</a>
-                    </td>
-                    <td class="col-6">
-                        <p>@item.FullURL</p>
-                    </td>
-                    <td>
-                        <div class="col">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <a role="button" class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
+                    <div class="col">
+                        <td>
+                            <a href="@item.FullURL">@item.ShortURL</a>
+                        </td>
+                    </div>
+                    <div class="col-6">
+                        <td>
+                            <p>@item.FullURL</p>
+                        </td>
+                    </div>
+                    <div class="col">
+                        <td>
+                            <div>
+                                @if (User.Identity.IsAuthenticated)
                                 {
-                                    <a role="button" class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a role="button" class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    @if (User.IsInRole("admin") || User.Identity.Name == item.AuthorLogin)
+                                    {
+                                        <a role="button" class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-secondary disabled" role="button" aria-disabled="true">Delete</a>
+                                    }
                                 }
-                                else
-                                {
-                                    <a class="btn btn-secondary disabled" role="button" aria-disabled="true">Delete</a>
-                                }
-                            }
-                        </div>
-                    </td>
+                            </div>
+                        </td>
+                    </div>
                 </tr>
             }
         }

@@ -34,7 +34,7 @@ namespace InforceURLShortner.Controllers
                 {
                     FullURL = fullUrl,
                     ShortURL = UrlShortner.IdToShortURL(fullUrl.GetHashCode()),
-                    AuthorLogin = User.Identity.Name,
+                    AuthorLogin = User?.Identity.Name,
                     CreationDate = DateTime.Now
                 };
                 _context.Add(url);
@@ -42,7 +42,7 @@ namespace InforceURLShortner.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize]
@@ -71,7 +71,7 @@ namespace InforceURLShortner.Controllers
             if (url == null)
                 return NotFound();
 
-            if (User.IsInRole("admin") || User.Identity.Name == url.AuthorLogin)
+            if ((User?.IsInRole("admin") ?? false) || User?.Identity?.Name == url.AuthorLogin)
                 return View(url);
 
             return RedirectToAction(nameof(Index));

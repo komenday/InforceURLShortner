@@ -19,8 +19,7 @@ namespace InforceURLShortner.Models
             Role adminRole = new Role { Id = 1, Name = "admin" };
             Role userRole = new Role { Id = 2, Name = "user" };
             User adminUser = new User { 
-                Id = 1, 
-                Name = "Yurii Komenda", 
+                Id = 1,
                 Login = adminLogin, 
                 Password = adminPassword,
                 RoleId = adminRole.Id 
